@@ -13,3 +13,5 @@ draft: false
 ## What I found
 
 ## Open questions
+
+![macos-12-monterey-stock-default-dark-17-09-2024-1726606874](/images/hello-new-post-macos-12-monterey-stock-default-dark-17-09-2024-1726606874.jpg)
