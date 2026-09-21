@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import Empty from '../../components/Empty.astro';
+import { site } from '../../site.config';
+import { url } from '../../lib/utils';
+import { allSeries } from '../../lib/series';
+const sec = site.sections.series;
+if (!sec.enabled) return Astro.redirect(url('/'));
+const series = await allSeries();
+---
+<Base title={sec.title} description={sec.blurb}>
+  <header class="page-head"><h1>{sec.title}</h1><p>{sec.blurb}</p></header>
+  {series.length ? series.map((s) => (
+    <section class="card" id={s.id}>
+      <div class="card-top"><h2>{s.title}</h2><span class="faint">{s.parts.length} part{s.parts.length === 1 ? '' : 's'}</span></div>
+      <p>{s.description}</p>
+      {s.parts.length
+        ? <ol>{s.parts.map((p) => <li><a href={url(p.href)}>{p.title}</a></li>)}</ol>
+        : <p class="faint">First part coming soon.</p>}
+    </section>
+  )) : <Empty text="No series yet." />}
+</Base>
+<style>
+  h2 { font-size: 1.35rem; }
+  ol { margin: 1rem 0 0; padding-left: 1.3rem; }
+  li { margin: .45rem 0; }
+</style>

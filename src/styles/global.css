@@ -1,0 +1,133 @@
+/* ═══ Theme tokens — change colours here and the whole site follows ═══ */
+:root {
+  --bg: #0c0e0d;
+  --surface: #111413;
+  --border: #222826;
+  --border-strong: #2e3632;
+  --text: #e8ebe9;
+  --muted: #9aa39e;
+  --faint: #6c7570;
+
+  /* dark-green accent — used sparingly */
+  --green: #1f6b46;          /* buttons, badges */
+  --green-hover: #25804f;
+  --green-text: #5cc28b;     /* links, small highlights */
+  --green-soft: rgba(46, 160, 100, 0.12);
+
+  --radius: 12px;
+  --max: 46rem;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Inter, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.7 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; }
+a { color: var(--green-text); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--green-text); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--green); color: #fff; }
+
+h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -0.02em; margin: 0; font-weight: 700; }
+h1 { font-size: clamp(2rem, 5vw, 2.75rem); }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1.1em; }
+
+.wrap { max-width: calc(var(--max) + 2.5rem); margin: 0 auto; padding-inline: 1.25rem; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+
+/* ── Page header ── */
+.page-head { padding-block: 3.5rem 1.5rem; }
+.page-head p { color: var(--muted); font-size: 1.15rem; margin-top: 0.75rem; }
+
+/* ── Sections on home ── */
+.section { padding-block: 2.25rem; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+.section-head a { font-size: 0.95rem; white-space: nowrap; }
+
+/* ── Cards ── */
+.card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+  transition: border-color .15s, background .15s;
+}
+a.card:hover { border-color: var(--green); background: var(--surface); }
+.card + .card { margin-top: 0.9rem; }
+.card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.card h3 { font-size: 1.15rem; }
+.card p { color: var(--muted); margin: 0.5rem 0 0; }
+
+/* ── Post list rows (like "Recent writing") ── */
+.row { display: block; padding-block: 1.5rem; border-bottom: 1px solid var(--border); color: inherit; text-decoration: none; }
+.row:first-child { padding-top: 0.25rem; }
+.row h3 { font-size: 1.3rem; transition: color .15s; }
+.row:hover h3 { color: var(--green-text); }
+.row p { color: var(--muted); margin: 0.5rem 0 0; }
+.meta { color: var(--faint); font-size: 0.92rem; white-space: nowrap; display: flex; gap: 1rem; }
+
+/* ── Chips ── */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; padding: 0; list-style: none; }
+.chip {
+  font: 500 0.78rem/1 var(--mono);
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  color: var(--muted);
+}
+.status { font: 600 0.75rem/1 var(--font); text-transform: uppercase; letter-spacing: .06em; padding: .35rem .55rem; border-radius: 999px; background: var(--green-soft); color: var(--green-text); }
+.status.idea, .status.paused, .status.archived, .status.closed { background: rgba(255,255,255,.06); color: var(--muted); }
+
+/* ── Empty state ── */
+.empty {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font: 600 0.95rem/1 var(--font);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  background: transparent;
+  transition: background .15s, border-color .15s;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
+.btn.primary:hover { background: var(--green-hover); border-color: var(--green-hover); }
+
+/* ── Long-form content ── */
+.prose { font-size: 1.08rem; }
+.prose h2 { margin: 2.4rem 0 0.9rem; font-size: 1.5rem; }
+.prose h3 { margin: 2rem 0 0.7rem; }
+.prose ul, .prose ol { padding-left: 1.3rem; margin: 0 0 1.1em; }
+.prose li { margin: 0.3em 0; }
+.prose blockquote { margin: 1.5rem 0; padding: 0.2rem 0 0.2rem 1.1rem; border-left: 3px solid var(--green); color: var(--muted); }
+.prose code { font: 0.88em var(--mono); background: var(--surface); border: 1px solid var(--border); padding: 0.1em 0.35em; border-radius: 5px; }
+.prose pre { padding: 1rem 1.1rem; border-radius: 10px; border: 1px solid var(--border); overflow-x: auto; font-size: 0.9rem; line-height: 1.55; }
+.prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+.prose hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+.prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+.prose th, .prose td { border: 1px solid var(--border); padding: .5rem .75rem; text-align: left; }
+.prose img { border-radius: 10px; border: 1px solid var(--border); }

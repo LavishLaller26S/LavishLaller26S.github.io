@@ -1,0 +1,16 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/utils';
+interface Props { project: CollectionEntry<'projects'>; }
+const { id, data } = Astro.props.project;
+---
+<a class="card" href={url(`/work/${id}/`)}>
+  <div class="card-top">
+    <h3>{data.title}</h3>
+    <span class:list={['status', data.status]}>{data.status}</span>
+  </div>
+  <p>{data.summary}</p>
+  {data.stack.length > 0 && (
+    <ul class="chips">{data.stack.map((s) => <li class="chip">{s}</li>)}</ul>
+  )}
+</a>

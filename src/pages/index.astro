@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import PostRow from '../components/PostRow.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Empty from '../components/Empty.astro';
+import { site } from '../site.config';
+import { published, url } from '../lib/utils';
+import { allSeries } from '../lib/series';
+
+const S = site.sections;
+const n = site.homeLimit;
+const projects = (await published('projects')).sort((a, b) => Number(b.data.featured) - Number(a.data.featured)).slice(0, n);
+const oss = (await published('open-source')).slice(0, n);
+const research = (await published('research')).slice(0, n);
+const series = (await allSeries()).slice(0, n);
+const initials = site.name.split(' ').map((w) => w[0]).join('').slice(0, 2);
+---
+<Base>
+  <section class="hero">
+    {site.avatar
+      ? <img class="avatar" src={url(site.avatar)} alt={site.name} width="120" height="120" />
+      : <div class="avatar initials" aria-hidden="true">{initials}</div>}
+    <div>
+      <h1>{site.name}</h1>
+      <p class="tagline">{site.tagline}</p>
+    </div>
+  </section>
+
+  <section class="intro">
+    {site.intro.map((p) => <p>{p}</p>)}
+  </section>
+
+  {site.availability.open && (
+    <div class="avail">
+      <span class="avail-text"><span class="pulse" aria-hidden="true"></span>{site.availability.text}</span>
+      <span class="avail-actions">
+        {site.resume && <a class="btn" href={url(site.resume)}>Resume</a>}
+        <a class="btn primary" href={url('/about#contact')}>Get in touch</a>
+      </span>
+    </div>
+  )}
+
+  {S.work.enabled && (
+    <section class="section">
+      <div class="section-head"><h2>{S.work.title}</h2>{projects.length > 0 && <a href={url(S.work.path)}>All projects →</a>}</div>
+      {projects.length ? projects.map((p) => <ProjectCard project={p} />) : <Empty text="Projects are on the way." />}
+    </section>
+  )}
+
+  {S.openSource.enabled && (
+    <section class="section">
+      <div class="section-head"><h2>{S.openSource.title}</h2>{oss.length > 0 && <a href={url(S.openSource.path)}>All contributions →</a>}</div>
+      {oss.length
+        ? oss.map((p) => <PostRow href={`/open-source/${p.id}/`} title={p.data.title} summary={p.data.summary} date={p.data.date} body={p.body} extra={p.data.project} />)
+        : <Empty text="First contributions coming soon." />}
+    </section>
+  )}
+
+  {S.research.enabled && (
+    <section class="section">
+      <div class="section-head"><h2>{S.research.title}</h2>{research.length > 0 && <a href={url(S.research.path)}>All research →</a>}</div>
+      {research.length
+        ? research.map((p) => <PostRow href={`/research/${p.id}/`} title={p.data.title} summary={p.data.summary} date={p.data.date} body={p.body} />)
+        : <Empty text="Research notes coming soon." />}
+    </section>
+  )}
+
+  {S.series.enabled && series.length > 0 && (
+    <section class="section">
+      <div class="section-head"><h2>{S.series.title}</h2><a href={url(S.series.path)}>All series →</a></div>
+      {series.map((s) => (
+        <a class="card" href={url(`${S.series.path}/#${s.id}`)}>
+          <div class="card-top"><h3>{s.title}</h3><span class="faint">{s.parts.length} part{s.parts.length === 1 ? '' : 's'}</span></div>
+          <p>{s.description}</p>
+        </a>
+      ))}
+    </section>
+  )}
+</Base>
+
+<style>
+  .hero { display: flex; align-items: center; gap: 1.5rem 2rem; padding-top: 3.5rem; flex-wrap: wrap; }
+  .avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); flex: none; }
+  .initials { display: grid; place-items: center; background: var(--surface); color: var(--green-text); font-size: 2.4rem; font-weight: 700; letter-spacing: -.02em; }
+  .tagline { color: var(--muted); font-size: 1.2rem; margin: .6rem 0 0; }
+  .intro { padding-top: 2rem; color: var(--muted); font-size: 1.12rem; }
+  .avail { display: flex; align-items: center; gap: .75rem 1rem; flex-wrap: wrap; border: 1px solid var(--green); background: var(--green-soft); border-radius: var(--radius); padding: 1rem 1.25rem; margin: .5rem 0 1rem; }
+  .avail-text { flex: 1 1 18rem; }
+  .avail-actions { display: flex; gap: .6rem; }
+  .pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--green-text); box-shadow: 0 0 0 0 rgba(92,194,139,.6); animation: pulse 2s infinite; display: inline-block; margin-right: .7rem; vertical-align: 1px; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(92,194,139,0); } 100% { box-shadow: 0 0 0 0 rgba(92,194,139,0); } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+</style>

@@ -1,0 +1,28 @@
+---
+import { site } from '../site.config';
+const { email, github, linkedin, x } = site.links;
+const links = [
+  email && { label: 'Email', href: `mailto:${email}` },
+  github && { label: 'GitHub', href: github },
+  linkedin && { label: 'LinkedIn', href: linkedin },
+  x && { label: 'X', href: x },
+].filter(Boolean) as { label: string; href: string }[];
+---
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div>
+      <div>© {new Date().getFullYear()} {site.name}</div>
+      <div class="faint small">{site.footerNote}</div>
+    </div>
+    <div class="links">
+      {links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--border); margin-top: 4rem; }
+  .foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem 2rem; flex-wrap: wrap; padding-block: 2rem 3rem; color: var(--muted); font-size: 0.95rem; }
+  .small { font-size: 0.88rem; margin-top: .3rem; }
+  .links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+</style>

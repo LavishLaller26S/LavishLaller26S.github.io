@@ -1,0 +1,5 @@
+---
+interface Props { text?: string; }
+const { text = 'Nothing here yet. Coming soon.' } = Astro.props;
+---
+<div class="empty">{text}</div>

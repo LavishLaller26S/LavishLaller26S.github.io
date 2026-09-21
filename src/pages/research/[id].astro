@@ -1,0 +1,19 @@
+---
+import { render } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { site } from '../../site.config';
+import { published } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  if (!site.sections.research.enabled) return [];
+  return (await published('research')).map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+const d = p.data;
+---
+<Post title={d.title} summary={d.summary} date={d.date} body={p.body} tags={d.tags}
+      series={d.series} selfHref={`/research/${p.id}/`}
+      back={{ href: site.sections.research.path, label: site.sections.research.title }}>
+  <Content />
+</Post>

@@ -1,0 +1,53 @@
+---
+import Base from './Base.astro';
+import { fmtDate, readingTime, url } from '../lib/utils';
+import { allSeries } from '../lib/series';
+
+interface Props {
+  title: string; summary: string; date: Date; body?: string;
+  tags?: string[]; back: { href: string; label: string };
+  series?: string; selfHref?: string;
+}
+const { title, summary, date, body, tags = [], back, series, selfHref } = Astro.props;
+
+let seriesInfo: Awaited<ReturnType<typeof allSeries>>[number] | undefined;
+if (series) seriesInfo = (await allSeries()).find((s) => s.id === series);
+const idx = seriesInfo?.parts.findIndex((p) => p.href === selfHref) ?? -1;
+const prev = seriesInfo && idx > 0 ? seriesInfo.parts[idx - 1] : undefined;
+const next = seriesInfo && idx >= 0 ? seriesInfo.parts[idx + 1] : undefined;
+---
+<Base title={title} description={summary}>
+  <article>
+    <header class="post-head">
+      <a class="back" href={url(back.href)}>← {back.label}</a>
+      {seriesInfo && <div class="series-tag">{seriesInfo.title} · Part {idx + 1} of {seriesInfo.parts.length}</div>}
+      <h1>{title}</h1>
+      <p class="lede">{summary}</p>
+      <div class="meta">
+        <time datetime={date.toISOString()}>{fmtDate(date)}</time>
+        <span>{readingTime(body)} read</span>
+      </div>
+      <slot name="head-extra" />
+      {tags.length > 0 && <ul class="chips">{tags.map((t) => <li class="chip">{t}</li>)}</ul>}
+    </header>
+    <div class="prose"><slot /></div>
+
+    {seriesInfo && (prev || next) && (
+      <nav class="series-nav" aria-label="Series">
+        {prev ? <a class="card" href={url(prev.href)}><span class="faint">← Previous</span><h3>{prev.title}</h3></a> : <span />}
+        {next ? <a class="card next" href={url(next.href)}><span class="faint">Next →</span><h3>{next.title}</h3></a> : <span />}
+      </nav>
+    )}
+  </article>
+</Base>
+
+<style>
+  .post-head { padding-block: 3rem 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .back { display: inline-block; font-size: .92rem; margin-bottom: 1.5rem; text-decoration: none; }
+  .series-tag { color: var(--green-text); font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .6rem; }
+  .lede { color: var(--muted); font-size: 1.2rem; margin: .9rem 0 .8rem; }
+  .series-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .9rem; margin-top: 3rem; }
+  .series-nav .card + .card { margin-top: 0; }
+  .series-nav .next { text-align: right; }
+  .series-nav h3 { margin-top: .3rem; font-size: 1.05rem; }
+</style>

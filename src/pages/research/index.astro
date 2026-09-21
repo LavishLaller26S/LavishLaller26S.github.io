@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRow from '../../components/PostRow.astro';
+import Empty from '../../components/Empty.astro';
+import { site } from '../../site.config';
+import { published, url } from '../../lib/utils';
+const sec = site.sections.research;
+if (!sec.enabled) return Astro.redirect(url('/'));
+const posts = await published('research');
+---
+<Base title={sec.title} description={sec.blurb}>
+  <header class="page-head"><h1>{sec.title}</h1><p>{sec.blurb}</p></header>
+  {posts.length
+    ? posts.map((p) => <PostRow href={`/research/${p.id}/`} title={p.data.title} summary={p.data.summary} date={p.data.date} body={p.body} />)
+    : <Empty text="Research notes coming soon." />}
+</Base>

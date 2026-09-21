@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { Content } from '../about.md';
+import { site } from '../site.config';
+import { url } from '../lib/utils';
+const sec = site.sections.about;
+if (!sec.enabled) return Astro.redirect(url('/'));
+const { email, github, linkedin, x } = site.links;
+---
+<Base title={sec.title} description={`About ${site.name}`}>
+  <header class="page-head"><h1>{sec.title}</h1></header>
+  <div class="prose"><Content /></div>
+
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    {site.availability.open && <p class="muted">{site.availability.text} Based in {site.location} · {site.timezone}. Happy to work async across time zones.</p>}
+    <div class="contact-links">
+      {email && <a class="btn primary" href={`mailto:${email}`}>{email}</a>}
+      {github && <a class="btn" href={github}>GitHub</a>}
+      {linkedin && <a class="btn" href={linkedin}>LinkedIn</a>}
+      {x && <a class="btn" href={x}>X</a>}
+      {site.resume && <a class="btn" href={url(site.resume)}>Resume (PDF)</a>}
+    </div>
+
+    {site.contactForm && (
+      <form class="form" action={site.contactForm} method="POST">
+        <label>Your email<input type="email" name="email" required placeholder="you@company.com" /></label>
+        <label>Message<textarea name="message" rows="5" required placeholder="Role, team, what you're building…"></textarea></label>
+        <button class="btn primary" type="submit">Send message</button>
+      </form>
+    )}
+  </section>
+</Base>
+
+<style>
+  .contact { margin-top: 3rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; }
+  .contact h2 { margin-bottom: .8rem; }
+  .contact-links { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+  .form { display: grid; gap: 1rem; margin-top: 1.75rem; }
+  label { display: grid; gap: .4rem; font-size: .92rem; color: var(--muted); }
+  input, textarea { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border-strong); border-radius: 8px; padding: .75rem .9rem; }
+  input:focus, textarea:focus { outline: none; border-color: var(--green-text); }
+  .form .btn { justify-self: start; cursor: pointer; }
+</style>

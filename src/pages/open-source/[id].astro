@@ -1,0 +1,27 @@
+---
+import { render } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { site } from '../../site.config';
+import { published } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  if (!site.sections.openSource.enabled) return [];
+  return (await published('open-source')).map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+const d = p.data;
+---
+<Post title={d.title} summary={d.summary} date={d.date} body={p.body} tags={d.tags}
+      series={d.series} selfHref={`/open-source/${p.id}/`}
+      back={{ href: site.sections.openSource.path, label: site.sections.openSource.title }}>
+  {(d.project || d.prUrl) && (
+    <div slot="head-extra" class="links">
+      {d.project && <span class="chip">{d.project}</span>}
+      {d.prStatus && <span class:list={['status', d.prStatus]}>{d.prStatus}</span>}
+      {d.prUrl && <a class="btn" href={d.prUrl}>View pull request</a>}
+    </div>
+  )}
+  <Content />
+</Post>
+<style>.links { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }</style>
