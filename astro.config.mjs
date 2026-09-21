@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 // If your repo has any other name, e.g. "portfolio" → base: '/portfolio'
 // ─────────────────────────────────────────────────────────────
 export default defineConfig({
-  site: 'https://YOUR-GITHUB-USERNAME.github.io',
+  site: 'https://lavishlaller26s.github.io',
   base: '/',
   integrations: [sitemap()],
   markdown: {

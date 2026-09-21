@@ -34,7 +34,7 @@ export const site = {
   // Contact + social links. Leave any value as '' to hide it.
   links: {
     email: 'you@example.com',
-    github: 'https://github.com/YOUR-GITHUB-USERNAME',
+    github: 'https://github.com/LavishLaller26S',
     linkedin: '',
     x: '',
   },
