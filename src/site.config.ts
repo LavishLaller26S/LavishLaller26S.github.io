@@ -7,20 +7,21 @@
 export const site = {
   name: 'Lavish Laller',
   shortName: 'Lavish Laller',
-  tagline: 'Software engineer. Rust, systems, and on-device AI.',
+  tagline: 'Software engineer. Rust, Java , systems, and Backends',
 
   // Shown on the home page under your name. One paragraph per string.
   intro: [
     'I build software close to the machine. Most of my recent work has been in Rust, on on-device AI and edge systems.',
+    'And Currently I am working on Java with SpringBoot Framework.',
     'This site is where I show what I build, what I contribute to open source, and how I think through problems before I write code.',
   ],
 
-  location: 'Noida, India',
+  location: 'New Delhi, India',
   timezone: 'IST (UTC+5:30)',
 
   // Put a square photo at public/avatar.jpg and set this to '/avatar.jpg'.
   // Leave it as '' to show your initials instead.
-  avatar: '',
+  avatar: 'public/avatar.png',
 
   // Remote-job availability banner on the home page. Set `open: false` to hide it.
   availability: {
@@ -29,14 +30,14 @@ export const site = {
   },
 
   // Put your resume at public/resume.pdf. Leave '' to hide the button.
-  resume: '',
+  resume: 'public/resume.pdf',
 
   // Contact + social links. Leave any value as '' to hide it.
   links: {
-    email: 'you@example.com',
+    email: 'lallerlavish2023@gmail.com',
     github: 'https://github.com/LavishLaller26S',
-    linkedin: '',
-    x: '',
+    linkedin: 'https://www.linkedin.com/in/lavish-laller-650453362/',
+    x: 'https://x.com/lallerlavish',
   },
 
   // Optional contact form. Create a free form at https://formspree.io,
