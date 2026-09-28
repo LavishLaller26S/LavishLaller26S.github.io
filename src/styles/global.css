@@ -21,14 +21,27 @@
   color-scheme: dark;
 }
 
+
+
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { height: 100%; }
+
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 500 17px/1.7 var(--font);
-  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  min-height: 100dvh;        /* handles mobile browser toolbars */
+  display: flex;
+  flex-direction: column;
+}
+
+/* your main content area grows to push the footer down */
+main.wrap {
+  width: 100%;
+  flex: 1 0 auto;
+}
+
+/* footer keeps its natural, consistent height */
+footer {
+  flex-shrink: 0;
 }
 img { max-width: 100%; height: auto; }
 a { color: var(--green-text); text-underline-offset: 3px; text-decoration-thickness: 1px; }

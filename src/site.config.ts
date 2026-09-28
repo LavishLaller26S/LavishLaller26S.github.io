@@ -21,7 +21,7 @@ export const site = {
 
   // Put a square photo at public/avatar.jpg and set this to '/avatar.jpg'.
   // Leave it as '' to show your initials instead.
-  avatar: 'public/avatar.png',
+  avatar: '/avatar.png',
 
   // Remote-job availability banner on the home page. Set `open: false` to hide it.
   availability: {
@@ -30,7 +30,7 @@ export const site = {
   },
 
   // Put your resume at public/resume.pdf. Leave '' to hide the button.
-  resume: 'public/resume.pdf',
+  resume: '/resume.pdf',
 
   // Contact + social links. Leave any value as '' to hide it.
   links: {
